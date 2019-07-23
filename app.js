@@ -2,6 +2,7 @@ const express = require("express"),
 	  session = require("express-session"),
 	  passport = require("passport"),
 	  mongoose = require("mongoose"),
+	  bodyParser = require("body-parser"),
 	  User = require("./models/user"),
 	  mongoURL = process.env.DATABASEURL || "mongodb://localhost:27017/wish_net";
 
@@ -22,6 +23,7 @@ mongoose.connect(mongoURL, {
 
 // app config
 app.set("view engine", "ejs");
+app.use(bodyParser.urlencoded({extended: true}));
 
 // session and passport configuration
 app.use(session({
