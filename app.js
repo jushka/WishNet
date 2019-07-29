@@ -3,13 +3,11 @@ const express = require("express"),
 	  passport = require("passport"),
 	  mongoose = require("mongoose"),
 	  bodyParser = require("body-parser"),
+	  flash = require("connect-flash"),
 	  User = require("./models/user"),
 	  mongoURL = process.env.DATABASEURL || "mongodb://localhost:27017/wish_net";
 
 const app = express();
-
-// requiring routes
-const indexRoutes = require("./routes/index.js");
 
 // mongoDB
 mongoose.connect(mongoURL, {
@@ -24,6 +22,7 @@ mongoose.connect(mongoURL, {
 // app config
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(flash());
 
 // session and passport configuration
 app.use(session({
@@ -33,9 +32,18 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+require("./config/passport")(passport);
+
+// global variables
+app.use((req, res, next) => {
+	// res.locals.currentUser = req.user;
+	res.locals.error = req.flash("error");
+	res.locals.success = req.flash("success");
+	next();
+});
 
 // routes
-app.use("/", indexRoutes);
+app.use("/", require("./routes/index.js"));
 
 const port = process.env.PORT || 3000;
 
