@@ -11,12 +11,12 @@ const app = express();
 
 // mongoDB
 mongoose.connect(mongoURL, {
-	useNewUrlParser: true,
-	useFindAndModify: false
+  useNewUrlParser: true,
+  useFindAndModify: false
 }).then(() => {
-	console.log("Connected to DB!");
+  console.log("Connected to DB!");
 }).catch((err) => {
-	console.log("ERROR: " + err.message);
+  console.log("ERROR: " + err.message);
 });
 
 // app config
@@ -26,9 +26,9 @@ app.use(flash());
 
 // session and passport configuration
 app.use(session({
-	secret: "What is your biggest desire?",
-	resave: false,
-	saveUninitialized: false
+  secret: "What is your biggest desire?",
+  resave: false,
+  saveUninitialized: false
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -36,10 +36,10 @@ require("./config/passport")(passport);
 
 // global variables
 app.use((req, res, next) => {
-	// res.locals.currentUser = req.user;
-	res.locals.error = req.flash("error");
-	res.locals.success = req.flash("success");
-	next();
+  // res.locals.currentUser = req.user;
+  res.locals.error = req.flash("error");
+  res.locals.success = req.flash("success");
+  next();
 });
 
 // routes
@@ -48,5 +48,5 @@ app.use("/", require("./routes/index.js"));
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
-	console.log("WishNet server has started!");
+  console.log("WishNet server has started!");
 });
