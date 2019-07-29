@@ -1,11 +1,11 @@
 const express = require("express"),
-	  session = require("express-session"),
-	  passport = require("passport"),
-	  mongoose = require("mongoose"),
-	  bodyParser = require("body-parser"),
-	  flash = require("connect-flash"),
-	  User = require("./models/user"),
-	  mongoURL = process.env.DATABASEURL || "mongodb://localhost:27017/wish_net";
+      session = require("express-session"),
+      passport = require("passport"),
+      mongoose = require("mongoose"),
+      bodyParser = require("body-parser"),
+      flash = require("connect-flash"),
+      User = require("./models/user"),
+      mongoURL = process.env.DATABASEURL || "mongodb://localhost:27017/wish_net";
 
 const app = express();
 
