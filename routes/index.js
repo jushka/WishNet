@@ -7,11 +7,13 @@ const express = require("express"),
 
 // root
 router.get("/", (req, res) => {
+  res.locals.title = "WishNet";
   res.render("index");
 });
 
 // show sign up form
 router.get("/signup", forwardLoggedIn, (req, res) => {
+  res.locals.title = "Sign Up";
   res.render("signup");
 });
 
@@ -79,6 +81,7 @@ router.post("/signup", (req, res) => {
 
 // show log in form
 router.get("/login", forwardLoggedIn, (req, res) => {
+  res.locals.title = "Log In";
   res.render("login");
 });
 
