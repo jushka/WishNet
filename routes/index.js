@@ -35,6 +35,7 @@ router.post("/signup", (req, res) => {
   }
   
   if(errors.length > 0) {
+    res.locals.title = "Sign Up";
     res.render("signup", {
       errors,
       username,
@@ -46,6 +47,7 @@ router.post("/signup", (req, res) => {
     User.findOne({email: email}).then((user) => {
       if(user) {
         errors.push({message: "User with such email already exists"});
+        res.locals.title = "Sign Up";
         res.render("signup", {
           errors,
           username,
@@ -67,7 +69,8 @@ router.post("/signup", (req, res) => {
             }
             newUser.password = hash;
             newUser.save().then((user) => {
-              req.flash("success", "Your account has been created. You can log in now");
+              req.flash("success_msg", "Your account has been created. You can log in now");
+              res.locals.title = "Log In";
               res.redirect("login");
             }).catch((err) => {
               console.log(err);
@@ -96,7 +99,7 @@ router.post("/login", passport.authenticate("local", {
 // handle log out
 router.get("/logout", (req, res) => {
   req.logout();
-  req.flash("success", "You are logged out now");
+  req.flash("success_msg", "You are logged out now");
   res.redirect("/");
 });
 

@@ -37,8 +37,9 @@ require("./config/passport")(passport);
 // global variables
 app.use((req, res, next) => {
   // res.locals.currentUser = req.user;
-  res.locals.error = req.flash("error");
-  res.locals.success = req.flash("success");
+  res.locals.title = "WishNet";
+  res.locals.error_msg = req.flash("error_msg");
+  res.locals.success_msg = req.flash("success_msg");
   next();
 });
 
