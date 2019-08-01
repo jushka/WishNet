@@ -44,9 +44,14 @@ router.post("/signup", (req, res) => {
       password2
     });
   } else {
-    User.findOne({email: email}).then((user) => {
-      if(user) {
-        errors.push({message: "User with such email already exists"});
+    User.find({$or:[{username: username}, {email: email}]}).then((users) => {
+      if(users.length > 0) {
+        if(users.find(user => user.username === username)) {
+          errors.push({message: "User with such username already exists"});
+        }
+        if(users.find(user => user.email === email)) {
+          errors.push({message: "User with such email already exists"});
+        }
         res.locals.title = "Sign Up";
         res.render("signup", {
           errors,
@@ -61,7 +66,7 @@ router.post("/signup", (req, res) => {
           email,
           password
         });
-        
+
         bcrypt.genSalt(10, (err, salt) => {
           bcrypt.hash(newUser.password, salt, (err, hash) => {
             if(err) {
@@ -92,7 +97,8 @@ router.get("/login", forwardLoggedIn, (req, res) => {
 router.post("/login", passport.authenticate("local", {
   successRedirect: "/",
   failureRedirect: "/login",
-  failureFlash: true
+  failureFlash: true,
+  successFlash: "You are now logged in!"
 }), (req, res) => {
 });
 

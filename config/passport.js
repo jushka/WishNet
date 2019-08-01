@@ -1,6 +1,6 @@
 const LocalStrategy = require("passport-local").Strategy,
-      // mongoose = require("mongoose"),
       bcrypt = require("bcryptjs"),
+      flash = require("connect-flash"),
       User = require("../models/user");
 
 module.exports = function(passport) {
