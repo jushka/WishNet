@@ -3,7 +3,7 @@
 <h1>Sign Up!</h1>
 
 <form action="/signup" method="POST">
-  <input type="text" name="username" placeholder="Enter username" value="<%= typeof username !="undefined" ? username : "" %>">
+  <input type="text" id="username" name="username" placeholder="Enter username" value="<%= typeof username !="undefined" ? username : "" %>">
   <input type="email" name="email" placeholder="Enter email" value="<%= typeof email !="undefined" ? email : "" %>">
   <input type="password" name="password" placeholder="Enter password">
   <input type="password" name="password2" placeholder="Repeat password">
