@@ -16,6 +16,16 @@ function setInputFilter(textbox, inputFilter) {
 
 // Restrict input by using a regular expression filter.
 setInputFilter(document.getElementById("username"), function(value) {
-  console.log(value);
   return /^[a-z0-9._]*$/.test(value);
+});
+
+// Constantly checks entered username
+["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function(event) {
+  document.getElementById("username").addEventListener(event, function() {
+    if (!/^[a-z0-9]+[a-z0-9._][a-z0-9]+$/.test(this.value)) {
+      this.style.borderBottom = "2px solid red";
+    } else {
+      this.style.borderBottom = "";
+    }
+  });
 });

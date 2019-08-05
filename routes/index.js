@@ -26,12 +26,20 @@ router.post("/signup", (req, res) => {
     errors.push({message: "Please enter all fields"});
   }
   
+  if(username.length < 6 || username.length > 30) {
+    errors.push({message: "Username must be between 6 and 30 characters long"});
+  }
+  
+  if(!/^[a-z0-9]+[a-z0-9._][a-z0-9]+$/.test(username)) {
+    errors.push({message: "Incorrect username format. Username examples: username, username123, user_name, user.name"});
+  }
+     
   if(password != password2) {
     errors.push({message: "Passwords do not match"});
   }
   
-  if(password.length < 6) {
-    errors.push({message: "Password must be at least 6 characters long"});
+  if(password.length < 6 || password.length > 30) {
+    errors.push({message: "Password must be between 6 and 30 characters long"});
   }
   
   if(errors.length > 0) {
@@ -105,8 +113,20 @@ router.post("/login", passport.authenticate("local", {
 // handle log out
 router.get("/logout", (req, res) => {
   req.logout();
-  req.flash("success_msg", "You are logged out now");
+  req.flash("success_msg", "You are now logged out!");
   res.redirect("/");
+});
+
+// show user profile
+router.get("/:username", (req, res) => {
+  User.findOne({username: req.params.username}, (err, user) => {
+    if(err || !user) {
+      req.flash("error_msg", "User not found!");
+      res.redirect("back");
+    } else {
+      res.render("profile", {user: user});
+    }
+  });
 });
 
 module.exports = router;
