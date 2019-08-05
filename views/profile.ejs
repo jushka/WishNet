@@ -1,0 +1,8 @@
+<% include ./partials/top %>
+
+<h1><%= user.username %> profile</h1>
+
+<p>Email: <%= user.email %></p>
+<p>Registered: <%= user.date.toLocaleDateString() %></p>
+
+<% include ./partials/bottom %>

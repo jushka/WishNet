@@ -3,7 +3,8 @@ const express = require("express"),
       bcrypt = require("bcryptjs"),
       User = require("../models/user"),
       router = express.Router(),
-      forwardLoggedIn = require("../middleware/auth").forwardLoggedIn;
+      forwardLoggedIn = require("../middleware/auth").forwardLoggedIn,
+      isLoggedIn = require("../middleware/auth").isLoggedIn;
 
 // root
 router.get("/", (req, res) => {
@@ -48,8 +49,6 @@ router.post("/signup", (req, res) => {
       errors,
       username,
       email,
-      password,
-      password2
     });
   } else {
     User.find({$or:[{username: username}, {email: email}]}).then((users) => {
@@ -65,8 +64,6 @@ router.post("/signup", (req, res) => {
           errors,
           username,
           email,
-          password,
-          password2
         });
       } else {
         const newUser = new User({
@@ -82,9 +79,8 @@ router.post("/signup", (req, res) => {
             }
             newUser.password = hash;
             newUser.save().then((user) => {
-              req.flash("success_msg", "Your account has been created. You can log in now");
-              res.locals.title = "Log In";
-              res.redirect("login");
+              req.flash("success_msg", "Your account has been created. You can log in now!");
+              res.redirect("/login");
             }).catch((err) => {
               console.log(err);
             });
@@ -102,13 +98,16 @@ router.get("/login", forwardLoggedIn, (req, res) => {
 });
 
 // handle log in
-router.post("/login", passport.authenticate("local", {
-  successRedirect: "/",
+router.post("/login",
+  passport.authenticate("local", {
   failureRedirect: "/login",
   failureFlash: true,
   successFlash: "You are now logged in!"
-}), (req, res) => {
-});
+  }),
+  (req, res) => {
+  res.redirect("/" + req.user.username);
+  }
+);
 
 // handle log out
 router.get("/logout", (req, res) => {
@@ -118,7 +117,7 @@ router.get("/logout", (req, res) => {
 });
 
 // show user profile
-router.get("/:username", (req, res) => {
+router.get("/:username", isLoggedIn, (req, res) => {
   User.findOne({username: req.params.username}, (err, user) => {
     if(err || !user) {
       req.flash("error_msg", "User not found!");

@@ -22,7 +22,7 @@ setInputFilter(document.getElementById("username"), function(value) {
 // Constantly checks entered username
 ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function(event) {
   document.getElementById("username").addEventListener(event, function() {
-    if (!/^[a-z0-9]+[a-z0-9._][a-z0-9]+$/.test(this.value)) {
+    if (!/^[a-z0-9]+[a-z0-9._][a-z0-9]+$/.test(this.value) || this.value.length < 6 || this.value.length > 30) {
       this.style.borderBottom = "2px solid red";
     } else {
       this.style.borderBottom = "";
