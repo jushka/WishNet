@@ -37,7 +37,7 @@ require("./config/passport")(passport);
 
 // global variables
 app.use((req, res, next) => {
-  // res.locals.currentUser = req.user;
+  res.locals.currentUser = req.user;
   res.locals.title = "WishNet";
   res.locals.error_msg = req.flash("error_msg");
   res.locals.success_msg = req.flash("success_msg");
@@ -47,7 +47,8 @@ app.use((req, res, next) => {
 });
 
 // routes
-app.use("/", require("./routes/index.js"));
+app.use("/", require("./routes/index"));
+app.use("/:username/wishes", require("./routes/wishes"));
 
 const port = process.env.PORT || 3000;
 
