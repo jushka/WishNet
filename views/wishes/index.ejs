@@ -1,0 +1,17 @@
+<% include ../partials/top %>
+
+<h1><%= user.username %> wishes</h1>
+
+<% if(user._id.equals(currentUser._id)) { %>
+  <a href="/<%= currentUser.username %>/wishes/new">Make a Wish!</a>
+<% } %>
+
+<% user.wishes.forEach((wish) => { %>
+  <h3><%= wish.name %></h3>
+  <p>Price: <%= wish.price %> euros</p>
+  <img src="<%= wish.image %>">
+  <p>Link: <a href="<%= wish.link %>"><%= wish.link %></a></p>
+  <p><%= wish.description %></p>
+<% }); %>
+
+<% include ../partials/bottom %>

@@ -5,4 +5,6 @@
 <p>Email: <%= user.email %></p>
 <p>Registered: <%= user.date.toLocaleDateString() %></p>
 
+<a href="/<%= user.username %>/wishes">View All Wishes</a>
+
 <% include ./partials/bottom %>
