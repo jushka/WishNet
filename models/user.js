@@ -16,7 +16,13 @@ const UserSchema = new mongoose.Schema({
   date: {
     type: Date,
     default: Date.now
-  }
+  },
+  wishes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Wish"
+    }
+  ]
 });
 
 const User = mongoose.model("User", UserSchema);
