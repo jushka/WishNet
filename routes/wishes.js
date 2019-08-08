@@ -2,9 +2,9 @@ const express = require("express"),
       User = require("../models/user"),
       Wish = require("../models/wish"),
       router = express.Router({mergeParams: true}),
-      //forwardLoggedIn = require("../middleware/auth").forwardLoggedIn,
       isLoggedIn = require("../middleware/auth").isLoggedIn,
-      matchUser = require("../middleware/auth").matchUser;
+      matchUser = require("../middleware/auth").matchUser,
+      checkWishOwnership = require("../middleware/auth").checkWishOwnership;
 
 // INDEX - show all wishes
 router.get("/", isLoggedIn, (req, res) => {
@@ -30,7 +30,7 @@ router.get("/new", matchUser, (req, res) => {
   });
 });
 
-// CREATE - create a new wish and add it to DB
+// CREATE - create a new wish
 router.post("/", matchUser, (req, res) => {
   User.findOne({username: req.params.username}, (err, user) => {
     if(err || !user) {
@@ -51,6 +51,30 @@ router.post("/", matchUser, (req, res) => {
           res.redirect("/" + user.username + "/wishes");
         }
       })
+    }
+  });
+});
+
+// SHOW - show info about particular wish
+router.get("/:wish_id", isLoggedIn, (req, res) => {
+  Wish.findById(req.params.wish_id, (err, wish) => {
+    if(err || !wish || wish.owner.username != req.params.username) {
+      req.flash("error_msg", "Wish not found");
+      res.redirect("back");
+    } else {
+      res.render("wishes/show", {wish: wish});
+    }
+  });
+});
+
+// EDIT - show form to edit wish
+router.get("/:wish_id/edit", checkWishOwnership, (req, res) => {
+  Wish.findById(req.params.wish_id, (err, wish) => {
+    if(err || !wish) {
+      req.flash("error_msg", "Wish not found");
+      res.redirect("back");
+    } else {
+      res.render("wishes/edit", {wish: wish});
     }
   });
 });

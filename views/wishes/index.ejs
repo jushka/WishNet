@@ -3,7 +3,7 @@
 <h1><%= user.username %> wishes</h1>
 
 <% if(user._id.equals(currentUser._id)) { %>
-  <a href="/<%= currentUser.username %>/wishes/new">Make a Wish!</a>
+  <a href="/<%= user.username %>/wishes/new">Make a Wish!</a>
 <% } %>
 
 <% user.wishes.forEach((wish) => { %>
@@ -12,6 +12,7 @@
   <img src="<%= wish.image %>">
   <p>Link: <a href="<%= wish.link %>"><%= wish.link %></a></p>
   <p><%= wish.description %></p>
+  <a href="/<%= user.username %>/wishes/<%= wish._id %>">See more</a>
 <% }); %>
 
 <% include ../partials/bottom %>
