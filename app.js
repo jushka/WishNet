@@ -4,7 +4,7 @@ const express = require("express"),
       mongoose = require("mongoose"),
       bodyParser = require("body-parser"),
       flash = require("connect-flash"),
-      User = require("./models/user"),
+      methodOverride = require("method-override"),
       mongoURL = process.env.DATABASEURL || "mongodb://localhost:27017/wish_net";
 
 const app = express();
