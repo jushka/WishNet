@@ -120,8 +120,8 @@ router.get("/logout", isLoggedIn, (req, res) => {
 router.get("/:username", isLoggedIn, (req, res) => {
   User.findOne({username: req.params.username}, (err, user) => {
     if(err || !user) {
-      req.flash("error_msg", "User not found!");
-      res.redirect("back");
+      req.flash("error_msg", "User not found! Believe me :)");
+      res.redirect("/");
     } else {
       res.render("profile", {user: user});
     }

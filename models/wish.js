@@ -1,4 +1,5 @@
-const mongoose = require("mongoose");
+const mongoose = require("mongoose"),
+      User = require("./user");
 
 const WishSchema = new mongoose.Schema({
   name: {
@@ -27,6 +28,15 @@ const WishSchema = new mongoose.Schema({
     },
     username: String
   }
+});
+
+WishSchema.pre("remove", function(next) {
+  User.findByIdAndUpdate(this.owner.id, {$pull: {wishes: this._id}}, (err) => {
+    if(err) {
+      console.log(err);
+    }
+    next();
+  });
 });
 
 const Wish = mongoose.model("Wish", WishSchema);

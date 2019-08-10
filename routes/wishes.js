@@ -79,4 +79,29 @@ router.get("/:wish_id/edit", checkWishOwnership, (req, res) => {
   });
 });
 
+// UPDATE - update particular wish
+router.put("/:wish_id", checkWishOwnership, (req, res) => {
+  Wish.findByIdAndUpdate(req.params.wish_id, req.body.wish, (err, wish) => {
+    if(err || !wish) {
+      req.flash("error_msg", "Wish not found");
+      res.redirect("back");
+    } else {
+      req.flash("success_msg", "Wish updated successfully!");
+      res.redirect("/" + wish.owner.username + "/wishes/" + wish._id);
+    }
+  });
+});
+
+// DESTROY - delete particular wish
+router.delete("/:wish_id", checkWishOwnership, (req, res, next) => {
+  Wish.findById(req.params.wish_id, (err, wish) => {
+    if(err) {
+      return next(err);
+    }
+    wish.remove();
+    req.flash("success_msg", "Wish deleted successfully!");
+    res.redirect("/" + req.params.username + "/wishes");
+  });
+});
+
 module.exports = router;

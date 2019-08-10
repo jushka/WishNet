@@ -10,6 +10,9 @@
 
 <% if(wish.owner.id.equals(currentUser._id)) { %>
   <a href="/<%= wish.owner.username %>/wishes/<%= wish._id %>/edit">Edit wish</a>
+  <form action="/<%= wish.owner.username %>/wishes/<%= wish._id %>/?_method=DELETE" method="POST">
+    <button>Delete wish</button>
+  </form>
 <% } %>
 
 <a href="/<%= wish.owner.username %>/wishes">Back to all <%= wish.owner.username %> wishes</a>
