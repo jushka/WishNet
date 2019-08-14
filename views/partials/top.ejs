@@ -20,11 +20,12 @@
       </div>
       <div class="navbar-nav ml-auto">
         <% if(!currentUser) { %>
-          <a class="btn btn-sm btn-outline-success mr-2" href="/login">Log In</a>
-          <a class="btn btn-sm btn-outline-primary" href="/signup">Sign Up</a>
+          <a class="btn btn-sm btn-outline-success mr-auto mr-lg-2 mb-2 my-lg-auto" href="/login">Log In</a>
+          <a class="btn btn-sm btn-outline-primary mr-auto my-lg-auto" href="/signup">Sign Up</a>
         <% } else { %>
-          <a class="btn btn-sm btn-outline-info mr-2" href="/<%= currentUser.username %>">My Profile</a>
-          <a class="btn btn-sm btn-outline-danger" href="/logout">Log Out</a>
+          <span class="nav-item nav-link">Signed in as <%= currentUser.username %></span>
+          <a class="btn btn-sm btn-outline-info mr-auto mr-lg-2 mb-2 my-lg-auto" href="/<%= currentUser.username %>">My Profile</a>
+          <a class="btn btn-sm btn-outline-danger mr-auto my-lg-auto" href="/logout">Log Out</a>
         <% } %>
       </div>
     </div>
