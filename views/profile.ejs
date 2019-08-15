@@ -1,10 +1,19 @@
 <% include ./partials/top %>
 
-<h1><%= user.username %> profile</h1>
+<main>
+  <div class="cover-color"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col text-center">
+        <h1 class="display-4 mt-5 mb-3"><%= user.username %></h1>
 
-<p>Email: <%= user.email %></p>
-<p>Registered: <%= user.date.toLocaleDateString() %></p>
+        <p class="lead">Email: <%= user.email %></p>
+        <p class="lead">Registered: <%= user.date.toLocaleDateString() %></p>
 
-<a href="/<%= user.username %>/wishes">View All Wishes</a>
+        <a class="btn btn-lg btn-secondary" href="/<%= user.username %>/wishes">View All Wishes</a>
+      </div>
+    </div>
+  </div>
+</main>
 
 <% include ./partials/bottom %>
