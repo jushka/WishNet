@@ -1,21 +1,56 @@
 <% if(typeof errors != "undefined") { %>
   <% errors.forEach((error) => { %>
-    <div><%= error.message %></div>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <div class="d-flex justify-content-center">
+        <%= error.message %>
+      </div>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
   <% }); %>
 <% } %>
 
 <% if(error_msg != "") { %>
-  <div><%= error_msg %></div>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <div class="d-flex justify-content-center">
+      <%= error_msg %>
+    </div>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
 <% } %>
 
 <% if(success_msg != "") { %>
-  <div><%= success_msg %></div>
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <div class="d-flex justify-content-center">
+      <%= success_msg %>
+    </div>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
 <% } %>
 
 <% if(error != "") { %>
-  <div><%= error %></div>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <div class="d-flex justify-content-center">
+      <%= error %>
+    </div>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
 <% } %>
 
 <% if(success != "") { %>
-  <div><%= success %></div>
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <div class="d-flex justify-content-center">
+      <%= success %>
+    </div>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
 <% } %>
