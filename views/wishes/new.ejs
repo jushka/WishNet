@@ -1,14 +1,41 @@
 <% include ../partials/top %>
 
-<h1>Make a Wish</h1>
+<main>
+  <div class="cover-color"></div>
+  <div class="box-auth text-center">
+    
+    <h1 class="h3 mb-3 font-weight-normal">Make a Wish!</h1>
 
-<form action="/<%= user.username %>/wishes" method="POST">
-  <input type="text" name="wish[name]" placeholder="What do you wish?">
-  <input type="number" name="wish[price]" placeholder="Enter price" min="0.01" step="0.01">
-  <input type="text" name="wish[image]" placeholder="Enter image URL">
-  <input type="text" name="wish[link]" placeholder="Enter link to wish">
-  <input type="text" name="wish[description]" placeholder="Enter description">
-  <button>I wish this!</button>
-</form>
+    <form action="/<%= user.username %>/wishes" method="POST" class="form-auth">
+      <div class="form-group">
+        <label for="name" class="sr-only">Wish</label>
+        <input type="text" id="name" class="form-control" name="wish[name]" placeholder="What do you wish?" autofocus>
+      </div>
+      
+      <div class="form-group">
+        <label for="price" class="sr-only">Price</label>
+        <input type="number" id="price" class="form-control" name="wish[price]" placeholder="Enter price" min="0.01" step="0.01">
+      </div>
+      
+      <div class="form-group">
+        <label for="image" class="sr-only">Image URL</label>
+        <input type="text" id="image" class="form-control" name="wish[image]" placeholder="Enter image URL">
+      </div>
+      
+      <div class="form-group">
+        <label for="link" class="sr-only">Link to wish</label>
+        <input type="text" id="link" class="form-control" name="wish[link]" placeholder="Enter link to wish">
+      </div>
+      
+      <div class="form-group">
+        <label for="description" class="sr-only">Description</label>
+        <input type="text" id="description" class="form-control" name="wish[description]" placeholder="Enter description">
+      </div>
+ 
+      <button class="btn btn-lg btn-secondary btn-block">I wish this!</button>
+    </form>
+    
+  </div>
+</main>
 
 <% include ../partials/bottom %>
