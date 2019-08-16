@@ -13,6 +13,7 @@ router.get("/", isLoggedIn, (req, res) => {
       req.flash("error_msg", "User not found");
       res.redirect("back");
     } else {
+      res.locals.title = user.username + " Wishes";
       res.render("wishes/index", {user: user});
     }
   });
@@ -25,6 +26,7 @@ router.get("/new", matchUser, (req, res) => {
       req.flash("error_msg", "User not found");
       res.redirect("back");
     } else {
+      res.locals.title = "Make a Wish";
       res.render("wishes/new", {user: user});
     }
   });
@@ -62,6 +64,7 @@ router.get("/:wish_id", isLoggedIn, (req, res) => {
       req.flash("error_msg", "Wish not found");
       res.redirect("back");
     } else {
+      res.locals.title = wish.owner.username + " Wish";
       res.render("wishes/show", {wish: wish});
     }
   });
@@ -74,6 +77,7 @@ router.get("/:wish_id/edit", checkWishOwnership, (req, res) => {
       req.flash("error_msg", "Wish not found");
       res.redirect("back");
     } else {
+      res.locals.title = "Edit Wish";
       res.render("wishes/edit", {wish: wish});
     }
   });

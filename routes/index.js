@@ -123,6 +123,7 @@ router.get("/:username", isLoggedIn, (req, res) => {
       req.flash("error_msg", "User not found! Believe me :)");
       res.redirect("/");
     } else {
+      res.locals.title = user.username + " Profile";
       res.render("profile", {user: user});
     }
   });
