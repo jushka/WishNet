@@ -1,20 +1,43 @@
 <% include ../partials/top %>
 
-<h1><%= wish.owner.username %> wish</h1>
-
-<h3><%= wish.name %></h3>
-<p>Price: <%= wish.price %> euros</p>
-<img src="<%= wish.image %>">
-<p>Link: <a href="<%= wish.link %>"><%= wish.link %></a></p>
-<p><%= wish.description %></p>
-
-<% if(wish.owner.id.equals(currentUser._id)) { %>
-  <a href="/<%= wish.owner.username %>/wishes/<%= wish._id %>/edit">Edit wish</a>
-  <form action="/<%= wish.owner.username %>/wishes/<%= wish._id %>/?_method=DELETE" method="POST">
-    <button>Delete wish</button>
-  </form>
-<% } %>
-
-<a href="/<%= wish.owner.username %>/wishes">Back to all <%= wish.owner.username %> wishes</a>
+<main>
+  <div class="container">
+    <div class="row">
+      <div class="col text-center">
+        <h2 class="lead mt-5"><%= wish.owner.username %> wishes...</h1>
+        <h1 class="display-4 mb-4"><%= wish.name %></h1>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-8 mb-3">
+        <div class="card">
+          <img class="card-img-top img-wish" src="<%= wish.image %>">
+          <div class="card-body">
+            <h6 class="card-subtitle mb-2 text-muted">Price: <%= wish.price %> euros</h6>
+            <p class="card-text"><%= wish.description %></p>
+            <div class="row">
+              <div class="col-12 col-md-6">
+                <a href="<%= wish.link %>" target="_blank" class="card-link">Visit wish's website</a>
+              </div>
+              <div class="col-12 col-md-6 mt-3 mt-md-0">
+                <div class="text-right">
+                  <% if(wish.owner.id.equals(currentUser._id)) { %>
+                    <a class="btn btn-sm btn-outline-secondary" href="/<%= wish.owner.username %>/wishes/<%= wish._id %>/edit"><i class="fas fa-pencil-alt"></i> Edit</a>
+                    <form class="d-inline" action="/<%= wish.owner.username %>/wishes/<%= wish._id %>/?_method=DELETE" method="POST">
+                      <button class="btn btn-sm btn-outline-danger ml-1"><i class="fas fa-trash-alt"></i> Delete</button>
+                    </form>
+                  <% } %>
+                </div>
+              </div>
+            </div> 
+          </div>
+          <div class="card-footer text-center">
+            <a class="btn btn-outline-secondary" href="/<%= wish.owner.username %>/wishes">Back to all <%= wish.owner.username %> wishes</a>
+          </div>
+        </div>     
+      </div>
+    </div>
+  </div>
+</main>
 
 <% include ../partials/bottom %>

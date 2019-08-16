@@ -19,35 +19,16 @@
       <% user.wishes.forEach((wish) => { %>
         <div class="col-12 col-md-6 col-lg-4">
           <div class="card mb-4">
-            <!-- <div class="card-header">
-              <%= wish.name %>
-            </div> -->
-            <img class="card-img-top" src="<%= wish.image %>">
+            <img class="card-img-top img-wishes" src="<%= wish.image %>">
             <div class="card-body">
               <h5 class="card-title"><%= wish.name %></h5>
               <a class="card-link" href="/<%= user.username %>/wishes/<%= wish._id %>">See more</a>
             </div>
-          </div>
-          
-           <h3></h3>
-            <!-- <p>Price: <%= wish.price %> euros</p> -->
-            
-            <!-- <p>Link: <a href="<%= wish.link %>"><%= wish.link %></a></p> -->
-            <!-- <p><%= wish.description %></p> -->
-            
+          </div>     
         </div>
       <% }); %>
     </div>
   </div>
 </main>
-
-
-
-
-
-
-
- 
-
 
 <% include ../partials/bottom %>
