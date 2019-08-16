@@ -1,7 +1,6 @@
 <% include ../partials/top %>
 
 <main>
-  <div class="cover-color"></div>
   <div class="box-auth text-center">
     
     <h1 class="h3 mb-3 font-weight-normal">Make a Wish!</h1>
@@ -33,6 +32,8 @@
       </div>
  
       <button class="btn btn-lg btn-secondary btn-block">I wish this!</button>
+      
+      <a class="btn btn-lg btn-outline-danger btn-block" href="/<%= user.username %>/wishes">Cancel</a>
     </form>
     
   </div>

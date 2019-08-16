@@ -1,20 +1,53 @@
 <% include ../partials/top %>
 
-<h1><%= user.username %> wishes</h1>
+<main>
+  <div class="container">
+    <div class="row">
+      <div class="col text-center">
+        <h1 class="display-4 mt-5 mb-3"><%= user.username %> wishes</h1>
 
-<% if(user._id.equals(currentUser._id)) { %>
-  <a href="/<%= user.username %>/wishes/new">Make a Wish!</a>
-<% } %>
+        <% if(user._id.equals(currentUser._id)) { %>
+        <a class="btn btn-lg btn-secondary mb-3" href="/<%= user.username %>/wishes/new">Make a Wish!</a>
+        <% } %>
+        <div>
+          <a class="btn btn-lg btn-outline-secondary mb-4" href="/<%= user.username %>">Back to <%= user.username %> profile</a>
+        </div>
+       
+      </div>
+    </div>
+    <div class="row">
+      <% user.wishes.forEach((wish) => { %>
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card mb-4">
+            <!-- <div class="card-header">
+              <%= wish.name %>
+            </div> -->
+            <img class="card-img-top" src="<%= wish.image %>">
+            <div class="card-body">
+              <h5 class="card-title"><%= wish.name %></h5>
+              <a class="card-link" href="/<%= user.username %>/wishes/<%= wish._id %>">See more</a>
+            </div>
+          </div>
+          
+           <h3></h3>
+            <!-- <p>Price: <%= wish.price %> euros</p> -->
+            
+            <!-- <p>Link: <a href="<%= wish.link %>"><%= wish.link %></a></p> -->
+            <!-- <p><%= wish.description %></p> -->
+            
+        </div>
+      <% }); %>
+    </div>
+  </div>
+</main>
 
-<% user.wishes.forEach((wish) => { %>
-  <h3><%= wish.name %></h3>
-  <p>Price: <%= wish.price %> euros</p>
-  <img src="<%= wish.image %>">
-  <p>Link: <a href="<%= wish.link %>"><%= wish.link %></a></p>
-  <p><%= wish.description %></p>
-  <a href="/<%= user.username %>/wishes/<%= wish._id %>">See more</a>
-<% }); %>
 
-<a href="/<%= user.username %>">Back to <%= user.username %> profile</a>
+
+
+
+
+
+ 
+
 
 <% include ../partials/bottom %>

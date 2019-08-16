@@ -1,3 +1,7 @@
+body {
+  background-color: #f5f5f5;
+}
+
 .footer {
   background-color: #f8f9fa;
 }
@@ -38,4 +42,9 @@
   width: 100%;
   max-width: 24rem;
   margin: auto;
+}
+
+.card img {
+  height: 32vh;
+  object-fit: cover;
 }
