@@ -1,0 +1,23 @@
+<% include ./partials/top %>
+
+<main>
+  <div class="box-auth text-center">
+    
+    <h1 class="h3 mb-3 font-weight-normal">Change your username</h1>
+    
+    <p class="lead">Current username: <strong><%= currentUser.username %></strong></p>
+
+    <form action="/<%= currentUser.username %>/change_username" method="POST" class="form-auth">
+      <div class="form-group">
+        <label for="username" class="sr-only">New username</label>
+        <input type="text" id="username" class="form-control" name="username" placeholder="Enter new username" autofocus>
+        <small class="form-text text-muted text-left">Examples: username, username123, user_name, user.name</small>
+      </div>
+
+      <button class="btn btn-lg btn-secondary btn-block">Change it!</button>
+    </form>
+    
+  </div>
+</main>
+
+<% include ./partials/bottom %>

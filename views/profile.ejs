@@ -10,6 +10,19 @@
         <p class="lead">Registered: <%= user.date.toLocaleDateString() %></p>
 
         <a class="btn btn-lg btn-secondary" href="/<%= user.username %>/wishes">View All Wishes</a>
+        
+        <% if(user._id.equals(currentUser._id)) { %>
+        <div class="dropdown mt-3">
+          <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Change...
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="/<%= user.username %>/change_username">Username</a>
+            <a class="dropdown-item" href="/<%= user.username %>/change_email">Email</a>
+            <a class="dropdown-item" href="/<%= user.username %>/change_password">Password</a>
+          </div>
+        </div>
+        <% } %>
       </div>
     </div>
   </div>

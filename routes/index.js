@@ -2,9 +2,11 @@ const express = require("express"),
       passport = require("passport"),
       bcrypt = require("bcryptjs"),
       User = require("../models/user"),
+      Wish = require("../models/wish"),
       router = express.Router(),
       forwardLoggedIn = require("../middleware/auth").forwardLoggedIn,
-      isLoggedIn = require("../middleware/auth").isLoggedIn;
+      isLoggedIn = require("../middleware/auth").isLoggedIn,
+      matchUser = require("../middleware/auth").matchUser;
 
 // root
 router.get("/", (req, res) => {
@@ -127,6 +129,73 @@ router.get("/:username", isLoggedIn, (req, res) => {
       res.render("profile", {user: user});
     }
   });
+});
+
+// show username change form
+router.get("/:username/change_username", matchUser, (req, res) => {
+  User.findOne({username: req.params.username}, (err, user) => {
+    if(err || !user) {
+      req.flash("error_msg", "User not found!");
+      res.redirect("/");
+    } else {
+      res.locals.title = "Change your username";
+      res.render("change_username", {user: user});
+    }
+  });
+});
+
+// handle username change
+router.post("/:username/change_username", matchUser, (req, res) => {
+  const username = req.body.username;
+  let errors = [];
+  
+  if(!username) {
+    errors.push({message: "Please enter a new username"});
+  }
+  
+  if(username.length < 6 || username.length > 30) {
+    errors.push({message: "Username must be between 6 and 30 characters long"});
+  }
+  
+  if(!/^[a-z0-9]+[a-z0-9._][a-z0-9]+$/.test(username)) {
+    errors.push({message: "Incorrect username format. Username examples: username, username123, user_name, user.name"});
+  }
+  
+  if(errors.length > 0) {
+    res.locals.title = "Change your username";
+    res.render("change_username", {errors});
+  } else {
+    User.findOne({username: username}).then((user) => {
+      if(user) {
+        errors.push({message: "User with such username already exists"});
+        res.locals.title = "Change your username";
+        res.render("change_username", {errors});
+      } else {
+        User.findOne({username: req.params.username}, (err, user) => {
+          if(err) {
+            req.flash("error_msg", "User not found!");
+            res.redirect("/");
+          } else {
+            Wish.find({"owner.username": user.username}, (err, wishes) => {
+              if(err) {
+                req.flash("error_msg", "Something went wrong");
+                return res.redirect("/");
+              } else if(wishes) {
+                wishes.forEach((wish) => {
+                  wish.owner.username = username;
+                  wish.save();
+                });
+              }
+              user.username = username;
+              user.save();
+              req.flash("success_msg", "Your username has been changed!");
+              res.redirect("/" + username);
+            });
+          }
+        });
+      }
+    });
+  }
 });
 
 module.exports = router;
