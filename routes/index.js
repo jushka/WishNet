@@ -139,7 +139,7 @@ router.get("/:username/change_username", matchUser, (req, res) => {
       res.redirect("/");
     } else {
       res.locals.title = "Change your username";
-      res.render("change_username", {user: user});
+      res.render("change_username");
     }
   });
 });
@@ -192,6 +192,112 @@ router.post("/:username/change_username", matchUser, (req, res) => {
               res.redirect("/" + username);
             });
           }
+        });
+      }
+    });
+  }
+});
+
+// show email change form
+router.get("/:username/change_email", matchUser, (req, res) => {
+  User.findOne({username: req.params.username}, (err, user) => {
+    if(err || !user) {
+      req.flash("error_msg", "User not found!");
+      res.redirect("/");
+    } else {
+      res.locals.title = "Change your email";
+      res.render("change_email");
+    }
+  });
+});
+
+// handle email change
+router.post("/:username/change_email", matchUser, (req, res) => {
+  const email = req.body.email;
+  let errors = [];
+  
+  if(!email) {
+    errors.push({message: "Please enter a new email"});
+  }
+  
+  if(errors.length > 0) {
+    res.locals.title = "Change your email";
+    res.render("change_email", {errors});
+  } else {
+    User.findOne({email: email}).then((user) => {
+      if(user) {
+        errors.push({message: "User with such email already exists"});
+        res.locals.title = "Change your email";
+        res.render("change_email", {errors});
+      } else {
+        User.findOne({username: req.params.username}, (err, user) => {
+          if(err) {
+            req.flash("error_msg", "User not found!");
+            res.redirect("/");
+          } else {
+            user.email = email;
+            user.save();
+            req.flash("success_msg", "Your email has been changed!");
+            res.redirect("/" + req.params.username);
+          }
+        });
+      }
+    });
+  }
+});
+
+// show password change form
+router.get("/:username/change_password", matchUser, (req, res) => {
+  User.findOne({username: req.params.username}, (err, user) => {
+    if(err || !user) {
+      req.flash("error_msg", "User not found!");
+      res.redirect("/");
+    } else {
+      res.locals.title = "Change your password";
+      res.render("change_password");
+    }
+  });
+});
+
+// handle password change
+router.post("/:username/change_password", matchUser, (req, res) => {
+  const {password, password2} = req.body;
+  let errors = [];
+  
+  if(!password || !password2) {
+    errors.push({message: "Please enter a new password and repeat it"});
+  }
+  
+  if(password != password2) {
+    errors.push({message: "Passwords do not match"});
+  }
+  
+  if(password.length < 6 || password.length > 30) {
+    errors.push({message: "Password must be between 6 and 30 characters long"});
+  }
+  
+  if(errors.length > 0) {
+    res.locals.title = "Change your password";
+    res.render("change_password", {errors});
+  } else { 
+    User.findOne({username: req.params.username}, (err, user) => {
+      if(err) {
+        req.flash("error_msg", "User not found!");
+        res.redirect("/");
+      } else {
+        bcrypt.genSalt(10, (err, salt) => {
+          bcrypt.hash(password, salt, (err, hash) => {
+            if(err) {
+              throw err;
+            }
+            user.password = hash;
+            user.save().then((user) => {
+              req.flash("success_msg", "Your password has been changed!");
+              res.redirect("/" + req.params.username);
+            }).catch((err) => {
+              console.log(err);
+            });
+          });
         });
       }
     });

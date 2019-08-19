@@ -1,0 +1,24 @@
+<% include ./partials/top %>
+
+<main>
+  <div class="box-auth text-center">
+    
+    <h1 class="h3 mb-3 font-weight-normal">Change your email</h1>
+    
+    <p class="lead">Current email: <strong><%= currentUser.email %></strong></p>
+
+    <form action="/<%= currentUser.username %>/change_email" method="POST" class="form-auth">
+      <div class="form-group">
+        <label for="email" class="sr-only">New email</label>
+        <input type="email" id="email" class="form-control" name="email" placeholder="Enter new email" autofocus>
+        <small class="form-text text-muted text-left">Example: user@email.com</small>
+      </div>
+
+      <button class="btn btn-lg btn-secondary btn-block">Change it!</button>
+      <a class="btn btn-lg btn-outline-danger btn-block" href="/<%= currentUser.username %>">Cancel</a>
+    </form>
+    
+  </div>
+</main>
+
+<% include ./partials/bottom %>
