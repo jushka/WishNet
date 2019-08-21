@@ -1,5 +1,6 @@
 const User = require("../models/user"),
-      Wish = require("../models/wish");
+      Wish = require("../models/wish"),
+      Comment = require("../models/comment");
 
 module.exports = {
   isLoggedIn: function(req, res, next) {
@@ -43,6 +44,25 @@ module.exports = {
           req.flash("error_msg", "Wish not found");
           res.redirect("back");
         } else if(wish.owner.id.equals(req.user._id)) {
+          return next();
+        } else {
+          req.flash("error_msg", "You do not have permission to do that");
+          res.redirect("back");
+        }
+      });
+    } else {
+      req.flash("error_msg", "Please log in first to do that");
+      res.redirect("/login");
+    }
+  },
+  
+  checkCommentOwnership: function(req, res, next) {
+    if(req.isAuthenticated()) {
+      Comment.findById(req.params.comment_id, (err, comment) => {
+        if(err || !comment) {
+          req.flash("error_msg", "Comment not found");
+          res.redirect("back");
+        } else if(comment.owner.id.equals(req.user._id)) {
           return next();
         } else {
           req.flash("error_msg", "You do not have permission to do that");

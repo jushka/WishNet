@@ -1,0 +1,22 @@
+<% include ../partials/top %>
+
+<main>
+  <div class="box-auth text-center">
+    
+    <h1 class="h3 mb-3 font-weight-normal">Edit your comment</h1>
+<!-------------------------------   BAD code lower        -------------------------------------------------------------------------------------------------------------->
+    <form action="/<%= wishOwner %>/wishes/<%= comment.wish.id %>/comments/<%= comment._id %>?_method=PUT" method="POST" class="form-auth">
+      <div class="form-group">
+        <label for="comment" class="sr-only">Edit comment</label>
+        <input type="text" id="comment" class="form-control" name="comment[text]" value="<%= comment.text %>" placeholder="Enter your comment" autofocus>
+      </div>
+ 
+      <button class="btn btn-lg btn-secondary btn-block">Edit comment!</button>
+<!-------------------------------   BAD code lower        -------------------------------------------------------------------------------------------------------------->
+      <a class="btn btn-lg btn-outline-danger btn-block" href="/<%= wishOwner %>/wishes/<%= comment.wish.id %>">Cancel</a>
+    </form>
+    
+  </div>
+</main>
+
+<% include ../partials/bottom %>
