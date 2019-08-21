@@ -59,7 +59,7 @@ router.post("/", matchUser, (req, res) => {
 
 // SHOW - show info about particular wish
 router.get("/:wish_id", isLoggedIn, (req, res) => {
-  Wish.findById(req.params.wish_id, (err, wish) => {
+  Wish.findById(req.params.wish_id).populate("comments").exec((err, wish) => {
     if(err || !wish || wish.owner.username != req.params.username) {
       req.flash("error_msg", "Wish not found");
       res.redirect("back");
