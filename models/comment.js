@@ -1,4 +1,5 @@
-const mongoose = require("mongoose");
+const mongoose = require("mongoose"),
+      User = require("./user");
 
 const CommentSchema = new mongoose.Schema({
   text: {
@@ -29,7 +30,21 @@ const CommentSchema = new mongoose.Schema({
   }
 });
 
-/////////////////////////////////////////////////////////// add pre hook
+CommentSchema.pre("remove", function(next) {
+  const Wish = require("./wish");
+  Wish.findByIdAndUpdate(this.wish.id, {$pull: {comments: this._id}}, (err) => {
+    if(err) {
+      console.log(err);
+    } else {
+      User.findByIdAndUpdate(this.owner.id, {$pull: {comments: this._id}}, (err) => {
+        if(err) {
+          console.log(err);
+        }
+        next();
+      });
+    }
+  });
+});
 
 const Comment = mongoose.model("Comment", CommentSchema);
 

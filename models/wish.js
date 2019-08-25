@@ -1,5 +1,6 @@
 const mongoose = require("mongoose"),
-      User = require("./user");
+      User = require("./user"),
+      Comment = require("./comment");
 
 const WishSchema = new mongoose.Schema({
   name: {
@@ -27,7 +28,13 @@ const WishSchema = new mongoose.Schema({
       ref: "User"
     },
     username: String
-  }
+  },
+  comments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Comment"
+    }
+  ]
 });
 
 WishSchema.pre("remove", function(next) {
@@ -35,7 +42,24 @@ WishSchema.pre("remove", function(next) {
     if(err) {
       console.log(err);
     }
-    next();
+    else {
+      Comment.find({"wish.id": this._id}, (err, comments) => {
+        if(err) {
+          console.log(err);
+        } else {
+          comments.forEach((comment) => {
+            User.findOneAndUpdate({username: comment.owner.username}, {$pull: {comments: comment._id}}, (err) => {
+              if(err) {
+                console.log(err);
+              } else {
+                comment.delete();
+              }
+            });
+          });
+        }
+      });
+      next();
+    }
   });
 });
 

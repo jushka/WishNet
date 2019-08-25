@@ -71,4 +71,16 @@ router.put("/:comment_id", checkCommentOwnership, (req, res) => {
   });
 });
 
+// DESTROY - delete particular comment
+router.delete("/:comment_id", checkCommentOwnership, (req, res, next) => {
+  Comment.findById(req.params.comment_id, (err, comment) => {
+    if(err) {
+      return next(err);
+    }
+    comment.remove();
+    req.flash("success_msg", "Comment deleted successfully!");
+    res.redirect("/" + req.params.username + "/wishes/" + req.params.wish_id);
+  });
+});
+
 module.exports = router;
