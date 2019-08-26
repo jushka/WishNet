@@ -3,6 +3,7 @@ const express = require("express"),
       bcrypt = require("bcryptjs"),
       User = require("../models/user"),
       Wish = require("../models/wish"),
+      Comment = require("../models/comment"),
       router = express.Router(),
       forwardLoggedIn = require("../middleware/auth").forwardLoggedIn,
       isLoggedIn = require("../middleware/auth").isLoggedIn,
@@ -186,10 +187,21 @@ router.post("/:username/change_username", matchUser, (req, res) => {
                   wish.save();
                 });
               }
-              user.username = username;
-              user.save();
-              req.flash("success_msg", "Your username has been changed!");
-              res.redirect("/" + username);
+              Comment.find({"owner.username": user.username}, (err, comments) => {
+                if(err) {
+                  req.flash("error_msg", "Something went wrong");
+                  return res.redirect("/");
+                } else if(comments) {
+                  comments.forEach((comment) => {
+                    comment.owner.username = username;
+                    comment.save();
+                  });
+                }
+                user.username = username;
+                user.save();
+                req.flash("success_msg", "Your username has been changed!");
+                res.redirect("/" + username);
+              });
             });
           }
         });
