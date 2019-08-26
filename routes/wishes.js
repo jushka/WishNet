@@ -1,6 +1,7 @@
 const express = require("express"),
       User = require("../models/user"),
       Wish = require("../models/wish"),
+      Comment = require("../models/comment"),
       router = express.Router({mergeParams: true}),
       isLoggedIn = require("../middleware/auth").isLoggedIn,
       matchUser = require("../middleware/auth").matchUser,
@@ -90,8 +91,19 @@ router.put("/:wish_id", checkWishOwnership, (req, res) => {
       req.flash("error_msg", "Wish not found");
       res.redirect("back");
     } else {
-      req.flash("success_msg", "Wish updated successfully!");
-      res.redirect("/" + wish.owner.username + "/wishes/" + wish._id);
+      Comment.find({"wish.id": wish._id}, (err, comments) => {
+        if(err) {
+          req.flash("error_msg", "Something went wrong");
+          return res.redirect("/");
+        } else if(comments) {
+          comments.forEach((comment) => {
+            comment.wish.name = req.body.wish.name;
+            comment.save();
+          });
+        }
+        req.flash("success_msg", "Wish updated successfully!");
+        res.redirect("/" + wish.owner.username + "/wishes/" + wish._id);
+      });
     }
   });
 });

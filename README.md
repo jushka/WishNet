@@ -11,6 +11,7 @@ Stack: MEN (MongoDB, Express, Node.js)
 * flash messages
 * wishes add/edit/delete functionality
 * Bootstrap looks
+* comments add/edit/delete functionality
 
 ### What has to be done:
-* comments add/edit/delete functionality - next step
+* currently I've got several things in my mind :)
