@@ -5,30 +5,33 @@
     
     <h1 class="h3 mb-3 font-weight-normal">Sign Up!</h1>
 
-    <form action="/signup" method="POST" class="form-auth">
+    <form action="/signup" method="POST" class="form-auth needs-validation" novalidate>
       <div class="form-group">
         <label for="username" class="sr-only">Username</label>
-        <input type="text" id="username" class="form-control" name="username" placeholder="Enter username" value="<%= typeof username !="undefined" ? username : "" %>" autofocus>
+        <input type="text" id="username" class="form-control" name="username" placeholder="Enter username" value="<%= typeof username !="undefined" ? username : "" %>" autofocus required>
         <small class="form-text text-muted text-left">Examples: username, username123, user_name, user.name</small>
       </div>
       
       <div class="form-group">
         <label for="email" class="sr-only">Email</label>
-        <input type="email" id="email" class="form-control" name="email" placeholder="Enter email" value="<%= typeof email !="undefined" ? email : "" %>">
+        <input type="email" id="email" class="form-control" name="email" placeholder="Enter email" value="<%= typeof email !="undefined" ? email : "" %>" required>
+        <div class="invalid-feedback">
+          Please enter valid email.
+        </div>
         <small class="form-text text-muted text-left">Example: user@email.com</small>
       </div>
       
       <div class="form-group">
         <label for="password" class="sr-only">Password</label>
-        <input type="password" id="password" class="form-control" name="password" placeholder="Enter password">
+        <input type="password" id="password" class="form-control" name="password" placeholder="Enter password" required>
       </div>
       
       <div class="form-group">
         <label for="password2" class="sr-only">Repeat password</label>
-        <input type="password" id="password2" class="form-control" name="password2" placeholder="Repeat password">
+        <input type="password" id="password2" class="form-control" name="password2" placeholder="Repeat password" required>
       </div>
  
-      <button class="btn btn-lg btn-secondary btn-block">Sign Up</button>
+      <button class="btn btn-lg btn-secondary btn-block auth-btn" disabled>Sign Up</button>
     </form>
     
   </div>
