@@ -7,7 +7,7 @@
         <h1 class="display-4 mt-5 mb-3"><%= user.username %></h1>
 
         <p class="lead">Email: <%= user.email %></p>
-        <p class="lead">Registered: <%= user.date.toLocaleDateString() %></p>
+        <p class="lead">Registered: <%= moment(user.date).format("MMMM Do YYYY") %></p>
 
         <a class="btn btn-lg btn-secondary" href="/<%= user.username %>/wishes">View All Wishes</a>
         
